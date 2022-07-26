@@ -1,0 +1,180 @@
+### Python Built-Ins ###
+## DataCamp Python Course Practice##
+
+#Range
+#To create a list with a range of numbers
+
+nums = range(0,11)
+nums_list = list(nums)
+print(nums_list)
+
+#exclusive
+nums2 = range(11)
+nums_list2 = list(nums)
+print(nums_list2)
+
+
+#Enumerate
+#To create an indexed list of objects
+
+letters = ['a', 'b', 'c', 'd']
+indexed_letters = enumerate(letters)
+
+indexed_letters_list = list(indexed_letters)
+print(indexed_letters_list)
+
+#to start the index at specific number
+letters2 = ['a', 'b', 'c', 'd']
+indexed_letters2 = enumerate(letters, start = 9)
+
+indexed_letters_list2 = list(indexed_letters2)
+print(indexed_letters_list2)
+
+#Map
+#applies a function over an object
+
+#Example, to round every number on a list
+
+nums3 = [1.5, 2.5, 4.7, 7.8, 9.2]
+
+rnd_nums = map(round, nums3)
+print(list(rnd_nums))
+
+#Example, map with lambda
+
+nums4 = [1,2,3,4,5]
+
+sqrd_nums = map(lambda x: x ** 2, nums4)
+
+print(list(sqrd_nums))
+
+
+###EXERCISE 1###
+
+# Create a range object that goes from 0 to 5
+nums = range(0,6)
+print(type(nums))
+
+# Convert nums to a list
+nums_list = list(nums)
+print(nums_list)
+
+# Create a new list of odd numbers from 1 to 11 by unpacking a range object
+nums_list2 = [*range(1,12,2)]
+print(nums_list2)
+
+###EXERCISE 2###
+
+names = ['Jerry', 'Kramer', 'Elaine', 'George', 'Newman']
+indexed_names = []
+for i in range(len(names)):
+    index_name = (i, names[i])
+    indexed_names.append(index_name)
+
+# Rewrite the for loop to use enumerate
+indexed_names = []
+for i,name in enumerate(names):
+    index_name = (i,name)
+    indexed_names.append(index_name) 
+print(indexed_names)
+
+# Rewrite the above for loop using list comprehension
+indexed_names_comp = [(i,name) for i,name in enumerate(names)]
+print(indexed_names_comp)
+
+# Unpack an enumerate object with a starting index of one
+indexed_names_unpack = [*enumerate(names, 1)]
+print(indexed_names_unpack)
+
+###EXERCISE 3###
+
+names = ['Jerry', 'Kramer', 'Elaine', 'George', 'Newman']
+names_uppercase = []
+
+for name in names:
+  names_uppercase.append(name.upper())
+
+print(names_uppercase)
+
+# Use map to apply str.upper to each element in names
+names_map  = map(str.upper, names)
+
+# Print the type of the names_map
+print(type(names_map))
+
+# Unpack names_map into a list
+names_uppercase = [*names_map]
+
+# Print the list created above
+print(names_uppercase)
+
+########################
+
+#NumPy Arrays
+
+import numpy as np
+nums_np = np.array(range(5))
+print(nums_np)
+
+#NumPy array homogeneity - NumPy converts to make array homogeneous
+
+nums_np_ints = np.array([1,2,3])
+print(nums_np_ints.dtype)
+
+nums_np_floats = np.array([1,2.5,3])
+print(nums_np_floats)
+print(nums_np_floats.dtype)
+
+#NumPy array broadcasting - more efficient to perform calculations
+
+nums_np = np.array([-2,-1,0,1,2])
+print(nums_np ** 2)
+
+#NumPy array boolean indexing
+
+nums = [-2,-1,0,1,2]
+nums_np = np.array(nums)
+print(nums_np[nums_np>0])
+
+###EXERCISE 4###
+# Print second row of nums
+print(nums[1,:])
+
+# Print all elements of nums that are greater than six
+print(nums[nums > 6])
+
+# Double every element of nums
+nums_dbl = nums * 2
+print(nums_dbl)
+
+# Replace the third column of nums
+nums[:,2] = nums[:,2] + 1
+print(nums)
+
+###EXERCISE 5###
+#Bringing it all together: Festivus!
+#In this exercise, you will be throwing a party—a Festivus if you will!
+
+#You have a list of guests (the names list). Each guest, for whatever reason, has decided to show up to the party in 10-minute increments. For example, Jerry shows up to Festivus 10 minutes into the party's start time, Kramer shows up 20 minutes into the party, and so on and so forth.
+
+#We want to write a few simple lines of code, using the built-ins we have covered, to welcome each of your guests and let them know how many minutes late they are to your party. Note that numpy has been imported into your session as np and the names list has been loaded as well.
+
+#Let's welcome your guests!
+
+# Create a list of arrival times
+arrival_times = [*range(10, 60, 10)]
+
+print(arrival_times)
+
+# Convert arrival_times to an array and update the times
+arrival_times_np = np.array(arrival_times)
+new_times = arrival_times_np - 3
+
+# Use list comprehension and enumerate to pair guests to new times
+guest_arrivals = [(names[i],time) for i,time in enumerate(new_times)]
+
+# Map the welcome_guest function to each (guest,time) pair
+welcome_map = map(welcome_guest, guest_arrivals)
+
+guest_welcomes = [*welcome_map]
+print(*guest_welcomes, sep='\n')
